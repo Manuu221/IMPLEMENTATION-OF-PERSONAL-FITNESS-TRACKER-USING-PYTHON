@@ -1,0 +1,46 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample dataset
+sample_data = {
+    'Date': ['2025-03-20', '2025-03-21', '2025-03-22', '2025-03-23', '2025-03-24'],
+    'Steps': [5000, 7000, 8000, 10000, 12000],
+    'Calories': [200, 300, 350, 400, 450],
+    'Workout Duration (mins)': [30, 40, 45, 50, 60]
+}
+df = pd.DataFrame(sample_data)
+
+def submit_data(date, steps, calories, workout):
+    try:
+        steps = int(steps)
+        calories = int(calories)
+        workout = int(workout)
+
+        # Append to data frame
+        global df
+        df.loc[len(df)] = [date, steps, calories, workout]
+        print('Data submitted successfully!')
+
+    except ValueError:
+        print('Error: Please enter valid data.')
+
+def visualize_data():
+    if df.empty:
+        print('No data available to visualize.')
+    else:
+        df.plot(x='Date', y=['Steps', 'Calories', 'Workout Duration (mins)'], kind='line', marker='o')
+        plt.title('Fitness Progress Over Time')
+        plt.xlabel('Date')
+        plt.ylabel('Values')
+        plt.legend()
+        plt.savefig('fitness_progress.png')
+        print('Graph saved as fitness_progress.png')
+
+def save_data():
+    df.to_csv('fitness_data.csv', index=False)
+    print('Data saved to fitness_data.csv')
+
+# Example Usage
+submit_data('2025-03-25', 13000, 480, 70)
+visualize_data()
+save_data()
